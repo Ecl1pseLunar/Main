@@ -1,1 +1,42 @@
- -- script aleatorio!
+--[[
+    Game Owner Speed Boost Script
+    Autor: [Seu Nome]
+    Versão: 1.0.0
+    Descrição: Este script dobra a velocidade de caminhada do jogador que é o dono do jogo.
+--]]
+
+-- Serviços necessários
+local Players = game:GetService("Players")
+
+-- Configuração do script
+local GameOwnerId = 3620718146 -- Substitua pelo UserId do dono do jogo
+local SpeedMultiplier = 2 -- Fator de multiplicação da velocidade de caminhada
+local ScriptVersion = "1.2.0" -- Versão atual do script
+
+-- Função para verificar a versão
+local function checkVersion(version)
+    print("Script versão atual: " .. version)
+    -- Aqui você poderia implementar uma verificação remota, se necessário
+end
+
+-- Função para verificar o dono e ajustar a velocidade
+local function onPlayerAdded(player)
+    if player.UserId == GameOwnerId then
+        player.CharacterAdded:Connect(function(character)
+            local humanoid = character:WaitForChild("Humanoid")
+            humanoid.WalkSpeed = humanoid.WalkSpeed * SpeedMultiplier
+            print(player.Name .. " é o dono do jogo. Velocidade aumentada!")
+        end)
+    end
+end
+
+-- Conectar o evento PlayerAdded
+Players.PlayerAdded:Connect(onPlayerAdded)
+
+-- Garantir que funcione para jogadores já conectados
+for _, player in ipairs(Players:GetPlayers()) do
+    onPlayerAdded(player)
+end
+
+-- Checar a versão no início do script
+checkVersion(ScriptVersion)
